@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Review Jurnal Terumbu Karang</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    background:#f4f7fb;
+}
+
+header{
+    background:#0c7c8c;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+.container{
+    width:90%;
+    margin:auto;
+    margin-top:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.1);
+    margin-bottom:20px;
+}
+
+h2{
+    color:#0c7c8c;
+}
+
+button{
+    background:#0c7c8c;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#095c68;
+}
+
+iframe{
+    width:100%;
+    height:600px;
+    border:none;
+    border-radius:10px;
+}
+
+.info{
+    background:#e8f6f8;
+    padding:10px;
+    border-radius:5px;
+    margin-bottom:15px;
+}
+
+table{
+    width:100%;
+    border-collapse: collapse;
+    margin-top:15px;
+    font-size:15px;
+}
+
+th{
+    background:#ffb6d9;
+    color:#333;
+    padding:10px;
+    text-align:left;
+}
+
+td{
+    padding:10px;
+    border-bottom:1px solid #ddd;
+}
+
+tr:hover{
+    background:#ffe6f2;
+}
+
+</style>
+
+<script>
+function toggleJurnal(){
+    var x = document.getElementById("jurnal");
+    if(x.style.display === "none"){
+        x.style.display = "block";
+    }else{
+        x.style.display = "none";
+    }
+}
+
+function scrollJurnal(){
+    document.getElementById("jurnal").scrollIntoView({
+        behavior:"smooth"
+    });
+}
+</script>
+
+</head>
+
+<body>
+
+<header>
+<h1>Review Jurnal Konservasi Terumbu Karang</h1>
+<p>MK Konservasi Terumbu Karang</p>
+</header>
+
+<div class="container">
+
+<!-- REVIEW -->
+<div class="card">
+
+<h2>Review Jurnal</h2>
+
+<h3>Informasi Artikel</h3>
+<table>
+<tr>
+<th>Informasi</th>
+<th>Keterangan</th>
+</tr>
+
+<tr>
+<td>Nama</td>
+<td>Tatik Widya Wati</td>
+</tr>
+
+<tr>
+<td>NIM</td>
+<td>08051282328069</td>
+</tr>
+
+<tr>
+<td>Judul Artikel</td>
+<td>Coral Reef Restoration Techniques and Management Strategies in the Caribbean and Western Atlantic</td>
+</tr>
+
+<tr>
+<td>Penulis</td>
+<td>Leah Hodges & Pamela Hallock</td>
+</tr>
+
+<tr>
+<td>Jurnal</td>
+<td>Diversity (2025)</td>
+</tr>
+
+<tr>
+<td>Topik</td>
+<td>Restorasi dan Manajemen Terumbu Karang</td>
+</tr>
+</table>
+
+
+<div class="info">
+<b>Nama :</b> Tatik Widya Wati <br>
+<b>NIM :</b> 08051282328069 <br>
+<b>Judul Artikel :</b> Coral Reef Restoration Techniques and Management Strategies in the Caribbean and Western Atlantic <br>
+<b>Penulis :</b> Leah Hodges & Pamela Hallock <br>
+<b>Jurnal :</b> Diversity (2025)
+</div>
+
+<h3>1. Pendahuluan</h3>
+<p>
+Terumbu karang merupakan salah satu ekosistem laut dengan tingkat
+keanekaragaman hayati yang sangat tinggi. Ekosistem ini berfungsi sebagai
+habitat berbagai organisme laut, sumber perikanan, pelindung pantai dari
+gelombang, serta mendukung sektor pariwisata. Namun kondisi terumbu karang
+di berbagai wilayah dunia mengalami penurunan akibat perubahan iklim,
+pemanasan laut, pencemaran, penangkapan ikan berlebihan, badai, dan penyakit
+karang.
+</p>
+
+<h3>2. Metode Penelitian</h3>
+<p>
+Penelitian ini menggunakan metode <b>quantitative literature review</b> yang
+menganalisis berbagai penelitian sebelumnya secara sistematis. Data diperoleh
+dari database Web of Science dengan kata kunci terkait restorasi terumbu karang.
+Dari 93 publikasi yang ditemukan, sebanyak 74 artikel dipilih untuk dianalisis
+lebih lanjut berdasarkan relevansi dan kelengkapan data.
+</p>
+
+<button onclick="scrollJurnal()">Lihat Jurnal</button>
+<button onclick="toggleJurnal()">Tampilkan / Sembunyikan Jurnal</button>
+
+</div>
+
+
+<!-- JURNAL PDF -->
+<div class="card" id="jurnal">
+
+<h2>Jurnal Asli</h2>
+
+<p>Di bawah ini adalah jurnal yang direview:</p>
+
+<iframe src="diversity-17-00434.pdf"></iframe>
+
+</div>
+
+</div>
+
+</body>
+</html>
