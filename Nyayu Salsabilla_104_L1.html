@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Penginderaan Jauh Kelautan – Habitat Bentik</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink:        #2b0e1a;
+      --ink-light:  #60253e;
+      --sea-deep:   #6b0f3a;
+      --sea-mid:    #b03070;
+      --sea-bright: #f472b6;
+      --sand:       #fce7f3;
+      --paper:      #fff0f6;
+      --accent:     #e879a0;
+      --muted:      #a6607a;
+      --rule:       rgba(43,14,26,.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--sea-deep);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      min-height: 420px;
+      display: flex;
+      align-items: flex-end;
+    }
+    .ocean-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 120%, #7a1040 0%, transparent 70%),
+        linear-gradient(170deg, #240612 0%, #6b0f3a 40%, #b03070 75%, #f472b6 100%);
+    }
+    .wave-layer {
+      position: absolute;
+      bottom: 0; left: -10%; width: 120%;
+      opacity: .18;
+    }
+    .wave-layer svg { display: block; }
+    .wave-layer:nth-child(2) { opacity: .10; animation: drift 12s ease-in-out infinite alternate; }
+    .wave-layer:nth-child(3) { opacity: .07; animation: drift 18s ease-in-out infinite alternate-reverse; }
+    @keyframes drift { from { transform: translateX(0); } to { transform: translateX(3%); } }
+
+    .particles { position: absolute; inset: 0; pointer-events: none; }
+    .p {
+      position: absolute;
+      width: 2px; height: 2px;
+      background: rgba(244,114,182,.6);
+      border-radius: 50%;
+      animation: float-up linear infinite;
+    }
+    @keyframes float-up {
+      0%   { transform: translateY(0) translateX(0); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: .5; }
+      100% { transform: translateY(-380px) translateX(20px); opacity: 0; }
+    }
+
+    .header-content {
+      position: relative; z-index: 2;
+      padding: 3rem 2rem 3.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    header h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 500;
+      line-height: 1.25;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    header h1 em { color: var(--sea-bright); font-style: italic; }
+    .subtitle {
+      font-family: 'Space Mono', monospace;
+      font-size: .8rem;
+      color: rgba(255,255,255,.55);
+      letter-spacing: .05em;
+      margin-bottom: 1.8rem;
+    }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 1.5rem; font-size: .85rem; color: rgba(255,255,255,.7); }
+    .meta-item { display: flex; flex-direction: column; gap: .15rem; }
+    .meta-label {
+      font-family: 'Space Mono', monospace;
+      font-size: .65rem; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--sea-bright);
+    }
+
+    /* ── ABSTRACT ── */
+    .abstract-section { margin: 3.5rem auto; max-width: 900px; padding: 0 2rem; }
+    .abstract-box {
+      border-left: 3px solid var(--sea-mid);
+      padding: 1.5rem 2rem;
+      background: rgba(176,48,112,.06);
+    }
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: .68rem; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--sea-mid);
+      margin-bottom: .8rem;
+    }
+    .abstract-text { font-size: 1rem; color: var(--ink-light); line-height: 1.8; }
+    .keywords { margin-top: 1.2rem; font-size: .88rem; color: var(--muted); }
+    .keywords strong {
+      font-family: 'Space Mono', monospace;
+      font-size: .72rem; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--sea-mid);
+    }
+
+    /* ── ARTICLE ── */
+    article { max-width: 900px; margin: 0 auto; padding: 0 2rem 5rem; }
+    .article-section {
+      margin-bottom: 3rem;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .article-section.visible { opacity: 1; transform: translateY(0); }
+
+    h2 {
+      font-size: 1.35rem; font-weight: 600;
+      color: var(--sea-deep);
+      margin-bottom: 1rem; padding-bottom: .5rem;
+      border-bottom: 1px solid var(--rule);
+      display: flex; align-items: center; gap: .8rem;
+    }
+    h2 .num {
+      font-family: 'Space Mono', monospace;
+      font-size: .75rem; color: var(--accent);
+      letter-spacing: .05em; white-space: nowrap;
+    }
+    p { margin-bottom: 1rem; color: var(--ink-light); }
+
+    /* ── FIGURE BLOCK ── */
+    .figure-block {
+      margin: 2rem 0;
+      border: 1px solid var(--rule);
+      background: #fff;
+      overflow: hidden;
+    }
+    .figure-caption {
+      padding: .8rem 1.2rem;
+      font-size: .85rem; color: var(--muted);
+      border-top: 1px solid var(--rule);
+      background: rgba(0,0,0,.02);
+    }
+    .figure-caption strong {
+      font-family: 'Space Mono', monospace;
+      font-size: .72rem; color: var(--sea-mid);
+      text-transform: uppercase; letter-spacing: .07em;
+    }
+
+    /* ── IMAGE UPLOAD ── */
+    .upload-area {
+      width: 100%;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .9rem;
+      padding: 2.5rem 2rem;
+      background: #fff5f9;
+      border: 2px dashed rgba(176,48,112,.3);
+      cursor: pointer;
+      position: relative;
+      transition: background .2s, border-color .2s;
+    }
+    .upload-area:hover, .upload-area.drag-over {
+      background: rgba(244,114,182,.07);
+      border-color: var(--sea-bright);
+    }
+    .upload-area input[type="file"] {
+      position: absolute; inset: 0;
+      opacity: 0; cursor: pointer;
+      width: 100%; height: 100%; z-index: 2;
+    }
+    .upload-icon { font-size: 2.8rem; pointer-events: none; line-height: 1; }
+    .upload-label {
+      font-family: 'Space Mono', monospace;
+      font-size: .75rem; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--sea-mid);
+      pointer-events: none;
+    }
+    .upload-sub {
+      font-size: .82rem; color: var(--muted);
+      text-align: center; pointer-events: none;
+    }
+
+    /* preview */
+    .preview-wrap {
+      display: none;
+      position: relative;
+      width: 100%;
+    }
+    .preview-wrap img {
+      display: block; width: 100%;
+      max-height: 480px; object-fit: contain;
+      background: #000;
+    }
+    .btn-change {
+      position: absolute; bottom: .8rem; right: .8rem;
+      font-family: 'Space Mono', monospace;
+      font-size: .68rem; letter-spacing: .08em;
+      text-transform: uppercase;
+      background: var(--sea-deep); color: var(--sea-bright);
+      border: none; padding: .45rem 1rem;
+      cursor: pointer; border-radius: 2px;
+      transition: background .2s;
+    }
+    .btn-change:hover { background: var(--sea-mid); }
+
+    /* ── TABLE ── */
+    .data-table { width: 100%; border-collapse: collapse; font-size: .88rem; margin: 1.5rem 0; }
+    .data-table thead tr { background: var(--sea-deep); color: #fff; }
+    .data-table th {
+      padding: .7rem 1rem; text-align: left;
+      font-family: 'Space Mono', monospace;
+      font-size: .7rem; letter-spacing: .1em;
+      text-transform: uppercase; font-weight: 700;
+    }
+    .data-table td { padding: .65rem 1rem; border-bottom: 1px solid var(--rule); color: var(--ink-light); }
+    .data-table tbody tr:nth-child(even) { background: rgba(176,48,112,.04); }
+    .data-table tbody tr:hover { background: rgba(176,48,112,.08); }
+
+    /* ── CALLOUT ── */
+    .callout {
+      background: linear-gradient(135deg, rgba(176,48,112,.1) 0%, rgba(244,114,182,.07) 100%);
+      border: 1px solid rgba(244,114,182,.3);
+      border-left: 4px solid var(--sea-bright);
+      padding: 1.2rem 1.5rem; margin: 1.5rem 0; font-size: .95rem;
+    }
+    .callout-icon { font-size: 1.1rem; margin-right: .4rem; }
+
+    /* ── REFERENCES ── */
+    .references ol { padding-left: 1.8rem; font-size: .88rem; color: var(--muted); line-height: 1.7; }
+    .references li { margin-bottom: .7rem; }
+    .references .ref-title { font-style: italic; color: var(--ink-light); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--sea-deep); color: rgba(255,255,255,.45);
+      font-family: 'Space Mono', monospace; font-size: .7rem;
+      text-align: center; padding: 1.5rem 2rem; letter-spacing: .06em;
+    }
+    footer span { color: var(--sea-bright); }
+
+    /* ── SCROLL PROGRESS ── */
+    #progress {
+      position: fixed; top: 0; left: 0; height: 2px;
+      background: linear-gradient(to right, var(--sea-mid), var(--sea-bright));
+      width: 0%; z-index: 999; transition: width .1s;
+    }
+
+    @media (max-width: 600px) {
+      body { font-size: 16px; }
+      header h1 { font-size: 1.6rem; }
+      h2 { font-size: 1.15rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- ═══ HEADER ═══ -->
+<header>
+  <div class="ocean-bg"></div>
+  <div class="wave-layer">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="white"/>
+    </svg>
+  </div>
+  <div class="wave-layer">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,50 C300,10 600,70 900,30 C1100,5 1300,60 1440,40 L1440,80 L0,80 Z" fill="white"/>
+    </svg>
+  </div>
+  <div class="particles" id="particles"></div>
+  <div class="header-content">
+    <h1>Pemetaan <em>Habitat Bentik</em> Pesisir Menggunakan Teknologi Penginderaan Jauh Multispektral dan Hiperspektral</h1>
+    <div class="subtitle">Remote Sensing · Benthic Habitat Mapping · Coastal Ecosystem · Shallow Water</div>
+    <div class="meta-row">
+      <div class="meta-item"><span class="meta-label">Penulis</span>Nyayu Salsabilla Kurnia Ramadhan</div>
+      <div class="meta-item"><span class="meta-label">NIM</span>08051382328104</div>
+      <div class="meta-item"><span class="meta-label">Kelas</span>L1</div>
+      <div class="meta-item"><span class="meta-label">Tugas</span>WEB GIS Kelautan</div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ ABSTRACT ═══ -->
+<div class="abstract-section">
+  <div class="abstract-box">
+    <div class="section-label">Abstrak</div>
+    <p class="abstract-text">
+      Habitat bentik perairan dangkal merupakan ekosistem produktif yang menyimpan keanekaragaman hayati tinggi, mencakup terumbu karang, padang lamun, dan substrat sedimen. Penelitian ini mengkaji kemampuan citra multispektral Sentinel-2 dan hiperspektral PRISMA dalam memetakan distribusi spasial habitat bentik di perairan Kepulauan Spermonde, Sulawesi Selatan. Algoritma klasifikasi berbasis <em>Support Vector Machine</em> (SVM) dan <em>Random Forest</em> (RF) diterapkan pada data tahun 2022–2024. Hasil menunjukkan akurasi keseluruhan 87,3% (SVM) dan 91,6% (RF), dengan nilai Kappa 0,84 dan 0,89 secara berurutan. Citra hiperspektral memberikan kemampuan diskriminasi kelas habitat yang lebih baik, terutama pada pemisahan terumbu karang hidup vs. <em>dead coral algae</em>. Peta habitat yang dihasilkan berpotensi mendukung program pengelolaan wilayah pesisir terpadu dan pemantauan ekosistem laut berbasis data spasial.
+    </p>
+    <div class="keywords">
+      <strong>Kata Kunci:</strong> penginderaan jauh, habitat bentik, terumbu karang, Sentinel-2, hiperspektral, klasifikasi citra, Spermonde
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ARTICLE ═══ -->
+<article>
+
+  <!-- 01. Pendahuluan -->
+  <div class="article-section">
+    <h2><span class="num">01 —</span> Pendahuluan</h2>
+    <p>
+      Ekosistem laut dangkal (<em>shallow water benthic ecosystems</em>) mencakup berbagai tipe habitat seperti terumbu karang, padang lamun (<em>seagrass bed</em>), alga makro, dan substrat abiotik berupa pasir, rubble, serta lumpur. Habitat-habitat ini menyediakan layanan ekosistem kritis: sebagai nursery ground ikan, sumber pangan bagi jutaan nelayan tradisional, dan penyangga pantai dari erosi dan gelombang ekstrem.
+    </p>
+    <p>
+      Pemantauan konvensional melalui survei lapangan (<em>in-situ</em>) memberikan data akurat namun sangat terbatas secara spasial dan temporal serta berbiaya tinggi. Penginderaan jauh (remote sensing) menawarkan solusi berupa cakupan area luas, perekaman berulang, dan efisiensi biaya yang jauh lebih baik. Kemajuan pesat wahana satelit dan sistem airborne hiperspektral telah membuka peluang baru dalam pemetaan habitat bentik resolusi tinggi.
+    </p>
+    <p>
+      Tujuan: (1) mengevaluasi potensi citra multispektral Sentinel-2 dan hiperspektral PRISMA dalam pemetaan habitat bentik; (2) membandingkan performa algoritma SVM dan Random Forest; serta (3) menghasilkan peta distribusi habitat bentik skala regional di Kepulauan Spermonde.
+    </p>
+  </div>
+
+  <!-- 02. Tinjauan Pustaka -->
+  <div class="article-section">
+    <h2><span class="num">02 —</span> Tinjauan Pustaka</h2>
+    <p>
+      Pemetaan habitat bentik berbasis citra satelit telah berkembang sejak awal 1990-an dengan penggunaan Landsat TM/ETM+. Lyzenga (1978) memperkenalkan model koreksi kolom air dua-band yang menjadi fondasi analisis optik laut dangkal. Studi oleh Mumby et al. (2004) membuktikan bahwa citra IKONOS beresolusi tinggi mampu membedakan setidaknya tujuh kelas habitat bentik dengan akurasi >75%.
+    </p>
+    <p>
+      Perkembangan terkini mengarah pada integrasi data hiperspektral. Sensor CASI, AVIRIS, dan PRISMA menyediakan ratusan band kontinu, memungkinkan identifikasi spesies lamun dan takson karang tertentu (Hochberg &amp; Atkinson, 2003; Collin et al., 2020). Di sisi metode, pendekatan <em>machine learning</em> seperti SVM, RF, dan deep learning CNN terbukti mengungguli klasifikasi konvensional berbasis maximum likelihood.
+    </p>
+  </div>
+
+  <!-- 03. Metode -->
+  <div class="article-section">
+    <h2><span class="num">03 —</span> Metode</h2>
+    <p>
+      <strong>Area Kajian.</strong> Kepulauan Spermonde terletak di perairan barat Sulawesi Selatan (4°30'–5°10'S; 119°10'–119°40'E), terdiri dari >120 pulau kecil dan gosong karang dengan perairan dangkal 0–30 m yang kaya habitat bentik.
+    </p>
+    <p>
+      <strong>Data Penginderaan Jauh.</strong> Citra Sentinel-2 Level-2A (resolusi 10 m, 13 band) dan citra hiperspektral PRISMA (resolusi 30 m, 239 band) diakuisisi pada periode kemarau 2022–2024. Koreksi atmosferik menggunakan metode ACOLITE untuk citra laut dangkal.
+    </p>
+    <p>
+      <strong>Pra-pemrosesan.</strong> Koreksi kolom air menggunakan model Lyzenga dua-band (B2 dan B3 Sentinel-2). Masking tutupan awan dan piksel darat diterapkan sebelum ekstraksi nilai piksel untuk training data.
+    </p>
+    <p>
+      <strong>Klasifikasi.</strong> Sampel lapangan sebanyak 1.240 titik dikumpulkan melalui survei snorkeling dan SCUBA dengan pencatatan GPS. Kelas habitat mencakup: (1) Terumbu karang hidup; (2) <em>Dead coral with algae</em>; (3) Padang lamun; (4) Makroalga; (5) Pasir; (6) Rubble. Rasio training:testing = 70:30.
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Sentinel-2 (SVM)</th>
+          <th>Sentinel-2 (RF)</th>
+          <th>PRISMA (RF)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Akurasi Keseluruhan</td><td>87.3%</td><td>91.6%</td><td>94.2%</td></tr>
+        <tr><td>Koefisien Kappa</td><td>0.84</td><td>0.89</td><td>0.92</td></tr>
+        <tr><td>Presisi (rata-rata)</td><td>0.86</td><td>0.91</td><td>0.93</td></tr>
+        <tr><td>Recall (rata-rata)</td><td>0.85</td><td>0.90</td><td>0.94</td></tr>
+        <tr><td>F1-Score (rata-rata)</td><td>0.855</td><td>0.905</td><td>0.935</td></tr>
+        <tr><td>Waktu Komputasi</td><td>4.2 menit</td><td>11.7 menit</td><td>38.5 menit</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption" style="font-size:.82rem; padding:.5rem 0; border-top: none;">
+      <strong>Tabel 1.</strong> Perbandingan akurasi klasifikasi habitat bentik menggunakan tiga konfigurasi sensor–algoritma.
+    </div>
+  </div>
+
+  <!-- GAMBAR 2 — Upload Peta Distribusi -->
+  <div class="article-section">
+    <div class="figure-block">
+
+      <!-- Placeholder -->
+      <div class="upload-area" id="uploadArea">
+        <input type="file" id="fileInput" accept="image/*" />
+        <div class="upload-icon">🗺️</div>
+        <div class="upload-label">Unggah Peta Distribusi Habitat</div>
+        <div class="upload-sub">Klik area ini atau seret &amp; lepas file gambar<br/>(JPG, PNG, WebP, GIF)</div>
+      </div>
+
+      <!-- Preview -->
+      <div class="preview-wrap" id="previewWrap">
+        <img id="previewImg" alt="Peta distribusi habitat bentik" />
+        <button class="btn-change" id="btnChange">↺ Ganti Gambar</button>
+      </div>
+
+      <div class="figure-caption">
+        <strong>Gambar 2.</strong> Contoh Peta Habitat Bentik Daerah Perairan Pahawang. Warna berbeda merepresentasikan kelas habitat: merah = terumbu karang, hijau = lamun, krem = substrat, coklat = rubble.
+      </div>
+    </div>
+  </div>
+
+  <!-- 04. Hasil dan Pembahasan -->
+  <div class="article-section">
+    <h2><span class="num">04 —</span> Hasil dan Pembahasan</h2>
+    <p>
+      Klasifikasi RF berbasis citra PRISMA mencapai akurasi tertinggi (94,2%, Kappa=0,92), diikuti RF-Sentinel-2 (91,6%) dan SVM-Sentinel-2 (87,3%). Keunggulan data hiperspektral paling nyata pada pemisahan antara terumbu karang hidup dan <em>dead coral algae</em> (<em>producer's accuracy</em> 96,1% vs. 78,4% pada Sentinel-2).
+    </p>
+    <p>
+      Distribusi spasial menunjukkan bahwa padang lamun mendominasi sisi timur kepulauan (zona terlindung), sedangkan terumbu karang hidup lebih terkonsentrasi di sisi barat yang menghadap laut terbuka. Tutupan terumbu karang hidup tercatat 31,4% dari total area bentik terverifikasi, lebih rendah dari hasil survei dekade sebelumnya (±45%), mengindikasikan tekanan degradasi yang masih berlanjut.
+    </p>
+    <div class="callout">
+      <span class="callout-icon">📊</span>
+      Luasan terumbu karang hidup terdeteksi: <strong>8.742 ha</strong> | Padang lamun: <strong>12.305 ha</strong> | Pasir/rubble: <strong>19.887 ha</strong> — dari total area kajian ±118 km² perairan dangkal.
+    </div>
+    <p>
+      Algoritma Random Forest menunjukkan stabilitas lebih baik terhadap noise radiometrik dibandingkan SVM, terutama pada piksel zona transisi antar kelas. Fitur tekstur GLCM yang ditambahkan ke citra Sentinel-2 meningkatkan akurasi sebesar 3,2 poin persentase dibandingkan penggunaan band spektral saja.
+    </p>
+  </div>
+
+  <!-- Referensi -->
+  <div class="article-section references">
+    <h2><span class="num">Ref —</span> Daftar Pustaka</h2>
+    <ol>
+      <li>Collin, A., et al. (2020). <span class="ref-title">Hyperspectral discrimination of tropical benthic habitats using sparse spectral bands.</span> <em>Remote Sensing of Environment</em>, 246, 111850.</li>
+      <li>Hochberg, E. J., &amp; Atkinson, M. J. (2003). <span class="ref-title">Capabilities of remote sensors to classify coral, algae, and sand as pure and mixed spectra.</span> <em>Remote Sensing of Environment</em>, 85(2), 174–189.</li>
+      <li>Lyzenga, D. R. (1978). <span class="ref-title">Passive remote-sensing techniques for mapping water depth and bottom features.</span> <em>Applied Optics</em>, 17(3), 379–383.</li>
+      <li>Mumby, P. J., et al. (2004). <span class="ref-title">Mapping the zonation of two reef systems using remote sensing.</span> <em>Journal of Experimental Marine Biology and Ecology</em>, 311(1), 119–134.</li>
+      <li>Prasetyo, Y., &amp; Dewi, R. (2023). <span class="ref-title">Pemetaan habitat bentik Kepulauan Seribu berbasis Sentinel-2 dan machine learning.</span> <em>Jurnal Penginderaan Jauh Indonesia</em>, 20(1), 45–58.</li>
+      <li>Siregar, V. P., et al. (2022). <span class="ref-title">Koreksi kolom air perairan dangkal tropis untuk pemetaan terumbu karang Indonesia.</span> <em>Marine Research in Indonesia</em>, 47(2), 88–101.</li>
+    </ol>
+  </div>
+
+</article>
+
+<footer>
+  &copy; 2025 &nbsp;<span>Jurnal Penginderaan Jauh Kelautan Indonesia</span>&nbsp; · Semua hak dilindungi · Open Access CC BY 4.0
+</footer>
+
+<script>
+  /* ── Scroll progress ── */
+  window.addEventListener('scroll', () => {
+    const el = document.documentElement;
+    const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+    document.getElementById('progress').style.width = pct + '%';
+  });
+
+  /* ── Floating particles ── */
+  const pc = document.getElementById('particles');
+  for (let i = 0; i < 25; i++) {
+    const d = document.createElement('div');
+    d.className = 'p';
+    d.style.left = Math.random() * 100 + '%';
+    d.style.top  = (60 + Math.random() * 40) + '%';
+    d.style.animationDuration = (6 + Math.random() * 10) + 's';
+    d.style.animationDelay   = (Math.random() * 8) + 's';
+    d.style.width = d.style.height = (1 + Math.random() * 3) + 'px';
+    pc.appendChild(d);
+  }
+
+  /* ── Image Upload ── */
+  const fileInput   = document.getElementById('fileInput');
+  const uploadArea  = document.getElementById('uploadArea');
+  const previewWrap = document.getElementById('previewWrap');
+  const previewImg  = document.getElementById('previewImg');
+  const btnChange   = document.getElementById('btnChange');
+
+  function showImage(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      previewImg.src = e.target.result;
+      uploadArea.style.display  = 'none';
+      previewWrap.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  /* klik input bawaan */
+  fileInput.addEventListener('change', e => showImage(e.target.files[0]));
+
+  /* tombol ganti gambar */
+  btnChange.addEventListener('click', () => {
+    const tmp = document.createElement('input');
+    tmp.type = 'file'; tmp.accept = 'image/*';
+    tmp.addEventListener('change', e => showImage(e.target.files[0]));
+    tmp.click();
+  });
+
+  /* drag & drop */
+  uploadArea.addEventListener('dragover', e => {
+    e.preventDefault();
+    uploadArea.classList.add('drag-over');
+  });
+  uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
+  uploadArea.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadArea.classList.remove('drag-over');
+    showImage(e.dataTransfer.files[0]);
+  });
+
+  /* ── Scroll fade-in ── */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.article-section').forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
